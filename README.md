@@ -5,7 +5,7 @@
     <ul>
       <li>JSON</li>
       <li>XML</li>
-      <li>DATABASES(SQL and NOSQL</li>
+      <li>DATABASES(SQL and NOSQL)</li>
       <li>Excel</li>
     </ul>
   </div>
