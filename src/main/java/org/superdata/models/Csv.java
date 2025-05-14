@@ -35,4 +35,17 @@ public class Csv extends SuperDataImpl<Reader> {
         }
         return jsonArray;
     }
+
+    public static class Builder {
+        public Reader content;
+
+        public Csv.Builder setContent(Reader content) {
+            this.content = content;
+            return this;
+        }
+
+        public Csv build() {
+            return new Csv(content);
+        }
+    }
 }
