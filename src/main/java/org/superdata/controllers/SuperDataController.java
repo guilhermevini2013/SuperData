@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.superdata.models.Csv;
 import org.superdata.models.Json;
+import org.superdata.services.json.JsonService;
 
 import java.io.*;
 import java.util.List;
@@ -19,25 +20,20 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/superData")
 public class SuperDataController {
+    private final JsonService jsonService;
+
+    public SuperDataController(JsonService jsonService) {
+        this.jsonService = jsonService;
+    }
 
     @PostMapping(value = "/json/to/csv")
     public ResponseEntity<InputStreamResource> jsonToCsv(@RequestBody String content) throws IOException, CsvException {
-        Json json = new Json(content);
-
-        CSVReader strings = json.decodeToCSV();
-        File tempFile = File.createTempFile("pessoa_", ".csv");
-
-        try (CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
-            List<String[]> data = strings.readAll();
-            writer.writeAll(data);
-        }
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(tempFile));
-
+        File fileCsv = jsonService.jsonToCsv(content);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=export.csv")
                 .contentType(MediaType.parseMediaType("text/csv"))
-                .contentLength(tempFile.length())
-                .body(resource);
+                .contentLength(fileCsv.length())
+                .body(new InputStreamResource(new FileInputStream(fileCsv)));
     }
 
     @PostMapping(value = "/csv/to/json")

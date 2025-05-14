@@ -52,4 +52,17 @@ public class Json extends SuperDataImpl<String> {
         return new CSVReader(new StringReader(csvBuilder.toString()));
     }
 
+    public static class Builder {
+        private String content;
+
+        public Json.Builder setContent(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public Json build() {
+            return new Json(content);
+        }
+    }
+
 }
