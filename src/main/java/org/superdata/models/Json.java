@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.opencsv.CSVReader;
+import org.superdata.utils.DataUtil;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -19,10 +20,6 @@ public class Json extends SuperDataImpl<String> {
         this.jsonElement = JsonParser.parseString(content);
     }
 
-    public JsonElement getJsonElement() {
-        return jsonElement;
-    }
-
     public CSVReader decodeToCSV(){
         if (!this.jsonElement.isJsonArray()) {
             throw new IllegalStateException("Json is not an array");
@@ -30,7 +27,7 @@ public class Json extends SuperDataImpl<String> {
         JsonArray jsonArray = jsonElement.getAsJsonArray();
 
         if (jsonArray.isEmpty()) {
-            throw new IllegalStateException("Array JSON está vazio.");
+            throw new IllegalStateException("Array JSON is empty.");
         }
 
         JsonObject first = jsonArray.get(0).getAsJsonObject();
@@ -61,6 +58,7 @@ public class Json extends SuperDataImpl<String> {
         }
 
         public Json build() {
+            DataUtil.isValidJson(content);
             return new Json(content);
         }
     }

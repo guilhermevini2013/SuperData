@@ -1,15 +1,16 @@
 package org.superdata.controllers;
 
-import com.google.gson.JsonArray;
+
 import com.opencsv.exceptions.CsvException;
+import jakarta.validation.Valid;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.superdata.services.json.CsvService;
-import org.superdata.services.json.JsonService;
+import org.superdata.services.CsvService;
+import org.superdata.services.JsonService;
 
 import java.io.*;
 
@@ -25,7 +26,7 @@ public class SuperDataController {
     }
 
     @PostMapping(value = "/json/to/csv")
-    public ResponseEntity<InputStreamResource> jsonToCsv(@RequestBody String content) throws IOException, CsvException {
+    public ResponseEntity<InputStreamResource> jsonToCsv(@RequestBody String content) throws IOException {
         File fileCsv = jsonService.jsonToCsv(content);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=export.csv")
