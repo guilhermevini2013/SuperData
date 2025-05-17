@@ -1,4 +1,4 @@
-package org.superdata.services.json;
+package org.superdata.services;
 
 import com.google.gson.JsonArray;
 import com.opencsv.exceptions.CsvException;
